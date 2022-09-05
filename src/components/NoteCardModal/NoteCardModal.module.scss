@@ -1,0 +1,22 @@
+.modal{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 400;
+    box-shadow: 24;
+}
+
+.fullInput{
+    display:flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 7px 15px;
+    min-width: 600px;
+    margin: 32px auto 16px auto;
+    background-color:#fff;
+    div{
+        margin: 5px 0px;
+    }
+}

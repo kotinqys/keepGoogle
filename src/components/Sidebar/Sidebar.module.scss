@@ -1,0 +1,27 @@
+.item{
+    transition-duration: 0.1s ;
+    width: 40px;
+    display:flex;
+    align-items:center;
+    border-radius:30px;
+    margin-left: 10px;
+    padding:5px 15px 5px 0px;
+    p{
+        scale: 0;
+    }
+}
+
+.active{
+    background-color:#feefc3;
+}
+
+.open{
+    transition-duration: 0.1s ;
+    width: 100%;
+    margin-left: 0px;
+    border-radius:0px 30px 30px 0px;
+    padding:5px 20px 5px 7px;
+    p{
+        scale:1;
+    }
+}
