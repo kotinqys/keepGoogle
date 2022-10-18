@@ -9,16 +9,22 @@ interface LayoutProps {
 
 const Layout:React.FC<LayoutProps> = ({children}) => {
   const [isOpen,setIsOpen] = useState(true);
+  const [isDark ,setIsDark] = useState(false);
 
   //Open and close sidebar func
   const toggleSideBar = useCallback(() =>{
     setIsOpen(!isOpen);
   },[isOpen,setIsOpen]);
+
+  const handleChangeThem = () =>{
+    setIsDark(!isDark);
+  };
+   
   
   return (
     <>
-      <Header toggleSideBar={toggleSideBar}/>
-      <Box sx={{display:'flex'}}>
+      <Header toggleSideBar={toggleSideBar} changeThem={handleChangeThem} isDark={isDark}/>
+      <Box sx={{display:'flex'}} >
         <Sidebar isOpen={isOpen}/>
         {children}
       </Box>

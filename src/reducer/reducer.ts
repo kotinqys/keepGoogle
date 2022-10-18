@@ -16,9 +16,10 @@ export interface State {
   searchText: string,
 };
 
-export const initialState:State = {
-  notes: [],
-  archive:[],
+
+export const initialState:any = {
+  notes: JSON.parse(localStorage.getItem('notes') || '[]'),
+  archive:JSON.parse(localStorage.getItem('archive') || '[]'),
   searchText: '',
 };
 
@@ -32,16 +33,24 @@ export function reducer(state:State,action:NoteActionsType){
       fixed:false,
     };
     
-    return {
+    const data = {
       ...state,
       notes: [...state.notes, note],
     };
+
+    localStorage.setItem('notes',JSON.stringify(data.notes));
+
+    return data;
   case ActionTypes.DELETE:
-    return {
+    const newState = {
       ...state,
       notes: state.notes.filter((el)=>el.id !== action.payload.id),
       archive: state.archive.filter((el)=>el.id !== action.payload.id),
     };
+
+    localStorage.setItem('notes',JSON.stringify(newState.notes));
+
+    return newState;
   case ActionTypes.FIX:
     const newNotes = state.notes.map(note=>{
       if(note.id === action.payload.id){
@@ -50,24 +59,36 @@ export function reducer(state:State,action:NoteActionsType){
       return note;
     });
 
+    localStorage.setItem('notes',JSON.stringify(newNotes));
+
     return { 
       ...state, 
       notes: newNotes, 
     };
   case ActionTypes.ADDTOARCHIVE:
     const index = state.notes.findIndex(note=>note.id === action.payload.id);
-    return {
+    const archive =  {
       ...state,
       archive: [...state.archive,{...state.notes[index]}],
       notes: state.notes.filter((el)=>el.id !== action.payload.id),
     };
+
+    localStorage.setItem('archive',JSON.stringify(archive.archive));
+    localStorage.setItem('notes',JSON.stringify(archive.notes));
+
+    return archive;
   case ActionTypes.PULLOUTFROMARCHIVE:
     const id = state.archive.findIndex(note=>note.id === action.payload.id);
-    return {
+    const res =  {
       ...state,
       notes: [...state.notes,{...state.archive[id]}],
       archive: state.archive.filter((el)=>el.id !== action.payload.id),
     };
+
+    localStorage.setItem('archive',JSON.stringify(res.archive));
+    localStorage.setItem('notes',JSON.stringify(res.notes));
+
+    return res;
   case ActionTypes.UPDATENOTE:
     const newNotesWithUpdate = state.notes.map(note=>{
       if(note.id === action.payload.id){
@@ -79,6 +100,9 @@ export function reducer(state:State,action:NoteActionsType){
       }
       return note;
     });
+
+    localStorage.setItem('notes',JSON.stringify(newNotesWithUpdate));
+    
     return {
       ...state,
       notes: newNotesWithUpdate,

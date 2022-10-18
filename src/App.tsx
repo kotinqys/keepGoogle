@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom';
 import Archive from './pages/Archive/Archive';
 import Search from './pages/Search/Search';
+import SignIn from './pages/Auth/SignIn/SignIn';
+import SignUp from './pages/Auth/SignUp/SignUp';
 
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
       <Route path="/" element={<Notes />}/>
       <Route path="/archive" element={<Archive />}/>
       <Route path="/search" element={<Search />}/>
+      <Route path="/auth/sign-in" element={<SignIn />} />
+      <Route path="/auth/sign-up" element={<SignUp />} />
     </Routes>
   );
 }

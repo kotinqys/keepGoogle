@@ -1,4 +1,4 @@
-import React,{ memo } from 'react'; 
+import React,{ memo, useState } from 'react'; 
 import SearchBox from '../SearchBox/SearchBox';
 import logo from '../../assets/logo.png';
 import { AppBar, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
@@ -6,15 +6,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ReplayIcon from '@mui/icons-material/Replay';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import SplitscreenOutlinedIcon from '@mui/icons-material/SplitscreenOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 import useNotes from '../../hooks/useNotes';
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
     toggleSideBar: ()=>void,
+    changeThem: () =>void,
+    isDark: boolean
 }
 
-const Header:React.FC<HeaderProps> = ({toggleSideBar}) => {
-
+const Header:React.FC<HeaderProps> = ({isDark,toggleSideBar,changeThem}) => {
   const navigate = useNavigate();
   const {changeIsGrid,isGrid} = useNotes();
 
@@ -22,8 +26,13 @@ const Header:React.FC<HeaderProps> = ({toggleSideBar}) => {
     navigate('/');
   };
 
+  const handleChangeThem =() =>{
+    changeThem();
+  };
+
+
   return (
-    <Box sx={{minHeight:'64px'}}>
+    <Box sx={{minHeight:'64px'}} className={isDark?'dark':''}>
       <AppBar sx={{boxShadow:'none',borderBottom:'1px solid #dadce0'}}>
         <Toolbar>
           <IconButton
@@ -43,6 +52,18 @@ const Header:React.FC<HeaderProps> = ({toggleSideBar}) => {
           <SearchBox />
           <Box sx={{ flexGrow: 1 }} />
           <Box>
+            {isDark
+              ?<Tooltip title="Cветлая тема" onClick={handleChangeThem}>
+                <IconButton >
+                  <WbSunnyOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+              :<Tooltip title="Темная тема" onClick={handleChangeThem}>
+                <IconButton>
+                  <DarkModeOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            }
             <Tooltip title="Обновить">
               <IconButton onClick={()=>window.location.reload()}>
                 <ReplayIcon />
@@ -57,6 +78,11 @@ const Header:React.FC<HeaderProps> = ({toggleSideBar}) => {
                 <SplitscreenOutlinedIcon/>
               </IconButton>
             </Tooltip>}
+            <Tooltip title="Войти" onClick={()=>navigate('/auth/sign-in')}>
+              <IconButton>
+                <AccountCircleOutlinedIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
         </Toolbar>
       </AppBar>
